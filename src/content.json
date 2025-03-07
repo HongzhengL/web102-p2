@@ -1,0 +1,62 @@
+{
+    "title": "Computer Science Trivia",
+    "description": "Test your knowledge of computer science concepts and history!",
+    "cards": [
+        {
+            "id": 1,
+            "question": "Who is considered the first computer programmer?",
+            "answer": "Ada Lovelace",
+            "category": "History",
+            "difficulty": "Medium"
+        },
+        {
+            "id": 2,
+            "question": "What does CPU stand for?",
+            "answer": "Central Processing Unit",
+            "category": "Hardware",
+            "difficulty": "Easy"
+        },
+        {
+            "id": 3,
+            "question": "What programming paradigm is React based on?",
+            "answer": "Functional Programming",
+            "category": "Web Development",
+            "difficulty": "Medium"
+        },
+        {
+            "id": 4,
+            "question": "What is the time complexity of binary search?",
+            "answer": "O(log n)",
+            "category": "Algorithms",
+            "difficulty": "Hard"
+        },
+        {
+            "id": 5,
+            "question": "What year was JavaScript created?",
+            "answer": "1995",
+            "category": "History",
+            "difficulty": "Medium"
+        },
+        {
+            "id": 6,
+            "question": "What does HTML stand for?",
+            "answer": "HyperText Markup Language",
+            "category": "Web Development",
+            "difficulty": "Easy"
+        },
+        {
+            "id": 7,
+            "question": "What is the most widely used version control system?",
+            "answer": "Git",
+            "category": "Tools",
+            "difficulty": "Easy"
+        },
+        {
+            "id": 8,
+            "question": "What is the purpose of a firewall in computer networks?",
+            "answer": "To monitor and filter incoming and outgoing network traffic",
+            "category": "Networking",
+            "difficulty": "Medium"
+        }
+    ]
+}
