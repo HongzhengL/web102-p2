@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { BookOpen, ArrowRight, Shuffle } from "lucide-react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { BookOpen, ArrowRight, Shuffle, ArrowLeft } from "lucide-react";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import FlashCard from "./component/FlashCard";
 
@@ -72,6 +72,9 @@ function App() {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isFlipped, setIsFlipped] = useState(false);
     const { title, description, cards } = flashcardSets;
+    const userInput = useRef();
+    const [firstAttempt, setFirstAttempt] = useState(true);
+    const [answerIsCorrect, setAnswerIsCorrect] = useState(false);
 
     const handleFlip = () => {
         setIsFlipped(!isFlipped);
@@ -85,7 +88,38 @@ function App() {
 
         setCurrentCardIndex(randomIndex);
         setIsFlipped(false);
+        setFirstAttempt(true);
+        setAnswerIsCorrect(false);
+        userInput.current.value = "";
     };
+
+    const handlePrevCard = () => {
+        setCurrentCardIndex(prev => (prev - 1 + cards.length) % cards.length);
+        setIsFlipped(false);
+        setFirstAttempt(true);
+        setAnswerIsCorrect(false);
+        userInput.current.value = "";
+    }
+
+    const handleNextCard = () => {
+        setCurrentCardIndex((prev) => (prev + 1) % cards.length);
+        setIsFlipped(false);
+        setFirstAttempt(true);
+        setAnswerIsCorrect(false);
+        userInput.current.value = "";
+    }
+
+    const checkAnswer = (e) => {
+        e?.preventDefault();
+
+        setFirstAttempt(false);
+
+        if (userInput.current.value.toLowerCase() === cards[currentCardIndex].answer.toLowerCase()) {
+            setAnswerIsCorrect(true);
+        } else {
+            setAnswerIsCorrect(false);
+        }
+    }
 
     return (
         <div className="bg-light py-4" style={{ minHeight: "100vh" }}>
@@ -114,6 +148,50 @@ function App() {
                     </Col>
                 </Row>
 
+                <Form onSubmit={checkAnswer}>
+                    <Form.Group as={Row} className="mb-3 justify-content-center">
+                        <Form.Label column sm="2" className="mb-3" htmlFor="answer">
+                            Guess the answer here:
+                        </Form.Label>
+                        <Col sm="4">
+                            {
+                                firstAttempt ? (
+                                    <Form.Control
+                                        type="text"
+                                        className="mb-3"
+                                        placeholder="Enter your answer"
+                                        style={{ border: "3px solid lightgray" }}
+                                        ref={userInput}
+                                    />
+                                ) : (
+                                    answerIsCorrect ? (
+                                        <Form.Control
+                                            type="text"
+                                            className="mb-3"
+                                            placeholder="Enter your answer"
+                                            style={{ border: "3px solid blue" }}
+                                            ref={userInput}
+                                        />
+                                    ) : (
+                                        <Form.Control
+                                            type="text"
+                                            className="mb-3"
+                                            placeholder="Enter your answer"
+                                            style={{ border: "3px solid red" }}
+                                            ref={userInput}
+                                        />
+                                    )
+                                )
+                            }
+                        </Col>
+                        <Col sm="2">
+                            <Button variant="primary" type="submit" className="mb-4">
+                                Check Answer
+                            </Button>
+                        </Col>
+                    </Form.Group>
+                </Form>
+
                 <Row className="justify-content-center">
                     <Col
                         xs={12}
@@ -124,11 +202,28 @@ function App() {
                         <Button
                             variant="primary"
                             size="lg"
-                            onClick={handleRandomCard}
+                            onClick={handlePrevCard}
+                            className="d-flex align-items-center gap-2"
+                        >
+                            <ArrowLeft size={18} />
+                            Previous Card
+                        </Button>
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            onClick={handleNextCard}
                             className="d-flex align-items-center gap-2"
                         >
                             Next Card
                             <ArrowRight size={18} />
+                        </Button>
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            onClick={handleRandomCard}
+                            className="d-flex align-items-center gap-2"
+                        >
+                            Random Card
                         </Button>
                     </Col>
                 </Row>
